@@ -1,0 +1,13 @@
+.tasks {
+    width: 100%;
+    min-height: 65vh;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 10px;
+
+    @media screen and (max-width: 1199px) {
+        min-height: 65px;
+    }
+}

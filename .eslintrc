@@ -1,0 +1,17 @@
+{
+    "plugins": [
+        "react-hooks"
+    ],
+    "parser": "@babel/eslint-parser",
+    "extends": [
+        //"airbnb",
+        "plugin:react-hooks/recommended"
+    ],
+    "rules": {
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": ["warn", {
+            "additionalHooks": "(use.)"
+        }],
+        "max-len": [1, 120, 2, {"ignoreComments": true}]
+    }
+}

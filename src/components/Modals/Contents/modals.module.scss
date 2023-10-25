@@ -1,0 +1,35 @@
+.wrapper {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+    background-color: var(--white);
+    border: 5px solid var(--dark-grey);
+    border-radius: 10px;
+    font-size: 20px;
+
+    .buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .wrapper {
+        
+        .buttons {
+            flex-direction: column;
+            width: 100%;
+            justify-content: flex-start;
+            align-items: center;
+
+            & > button {
+                width: 100%;
+            }
+        }
+    }
+}

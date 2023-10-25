@@ -1,0 +1,6 @@
+export { AddNewtask } from './Contents/AddNewTask/AddNewTask'
+export { DisplayTaskData } from './Contents/DisplayTaskData/DisplayTaskData'
+export { CreateTask } from './Contents/TaskActions/CreateTask'
+export { UpdateTask } from './Contents/TaskActions/UpdateTask'
+export { DeleteTask } from './Contents/TaskActions/DeleteTask'
+export { ModalWrapper } from './Parent/ModalParent'

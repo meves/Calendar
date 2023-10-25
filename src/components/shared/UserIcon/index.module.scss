@@ -1,0 +1,53 @@
+.wrapper {
+    width: 41px;
+    height: 41px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--black01);
+    position: relative;
+    transition: all 0.2s ease-out;
+
+    .initials {
+        font-weight: 400;
+        font-size: 20px;
+        line-height: 1;
+        text-transform: uppercase;
+        color: var(--white);
+
+        &:hover {
+            cursor: pointer;
+            background-color: var(--black);
+        }
+    }
+
+    .list {
+        margin: 0;
+        padding-left: 0;
+        list-style-type: none;
+        position: absolute;
+        right: -50%;
+        top: 100%;
+        visibility: hidden;        
+
+        .item {
+            padding: 8px 16px 8px 16px;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 22px;
+            background-color: var(--bg-color);
+            border: none;
+            outline: none;
+            
+            &:hover {
+                cursor: pointer;
+                background-color: var(--light-grey);
+            }            
+        }
+    }
+
+    .visible {
+        visibility: visible;
+    }
+}

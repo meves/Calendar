@@ -1,0 +1,52 @@
+.wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    
+    .button {
+        height: 34px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16.41px;
+        padding: 8px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        color: var(--white);
+        background-color: var(--black01);        
+        transition: all 0.2s ease-out;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .arrow {
+        width: 35px;
+    }
+
+    .today {
+        width: 90px;
+    }
+
+    .arrow:hover, .today:hover {
+        background-color: var(--black);
+    }
+
+    .addTask {
+        width: 160px;
+        font-weight: 500;
+        color: var(--white);
+        background-color: var(--blue);
+        margin-left: auto;
+
+        &:hover {
+            background-color: var(--blue-hover);
+        }
+
+        @media screen and (max-width: 399px) {
+            font-size: 10px;
+        }
+    }
+}

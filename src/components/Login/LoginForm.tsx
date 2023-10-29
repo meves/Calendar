@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useCallback,useState } from "react";
+import React, { ChangeEvent, FormEvent, useCallback,useEffect,useState } from "react";
 import styles from './index.module.scss';
 import { REQUIRED } from "./libs/constants";
 import { validate } from "./libs/validators";
@@ -7,12 +7,16 @@ import { loginThunk } from "../../store/slices/authSlice";
 import { useNavigate } from "react-router-dom";
 import { InputName } from "./libs/types";
 import { displayError } from "./libs/displayError";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const initialState = { login: '', password: '' }
 
 export const LoginForm = () => {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
+
+    const notify = (message: string) => toast(message)
 
     const [errors, setErrors] = useState(initialState)
 
@@ -41,19 +45,15 @@ export const LoginForm = () => {
         
         dispatch(loginThunk(inputState))
             .then(error => {
-                error ? setErrors({ login: error, password: error }) : navigate('/')
+                error ? (setErrors({login: error, password: error}), notify(error)) : navigate('/')
             })
             .catch(error => {
                 navigate('/error')
-            })
-            .finally(() => {
-                setInputState(initialState)
-                setErrors(initialState)
-            })
-        
+            })        
     }, [inputState])
 
     return (
+        <>
         <form 
             className={styles.form}
             onSubmit={handleSubmitForm}    
@@ -108,5 +108,7 @@ export const LoginForm = () => {
                 </button>
             </fieldset>
         </form>
+        <ToastContainer />
+        </>
     )
 }

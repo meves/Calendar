@@ -1,10 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit"
 import { AppDispatch, RootState } from "../redux-store"
-import { deleteFromLocalStorage, getFromLocalStorage, saveToLocalStorage } from "../local-storage/utils"
+import { checkTokenExpired, deleteFromLocalStorage, getFromLocalStorage, saveToLocalStorage } from "../local-storage/utils"
 import { TOKEN } from "../local-storage/constants"
-import { LoginData, Token } from "../../axios/types" 
-import { authApi } from "../../axios/auth-api"
-import { StatusCodes } from "../../axios/status-codes"
+import { LoginData, SavedToken } from "../../rest-api/types" 
+import { authApi } from "../../rest-api/auth-api"
+import { StatusCodes } from "../../rest-api/status-codes"
 import { BAD_REQUEST, NOT_AUTHORIZED, SERVER_ERROR } from "../constants"
 
 interface AuthState {
@@ -46,12 +46,13 @@ export const selectAuth = (state: RootState) => state.auth
 
 export const initializeApp = () =>
     async (dispatch: AppDispatch) => {
-        const token = getFromLocalStorage<Token>(TOKEN)
-        if (token) {
+        const token = getFromLocalStorage<SavedToken>(TOKEN)        
+        if (token && checkTokenExpired(token.date)) {
             dispatch(setToken(token.token))
-            dispatch(setIsAuth())            
+            dispatch(setIsAuth())
             return true
         } else {
+            dispatch(logoutThunk())
             return false
         }
     }
@@ -60,7 +61,8 @@ export const loginThunk = (loginData: LoginData) =>
     async (dispatch: AppDispatch) => {
         const response = await authApi.login(loginData)
         if (response.status === StatusCodes.CREATED_201) {
-            saveToLocalStorage(TOKEN, response.data)
+            const { token, type } = response.data
+            saveToLocalStorage(TOKEN, { token, type, date: new Date() } as SavedToken)
             dispatch(setToken(response.data.token))
             dispatch(setIsAuth())
         } else if (response.status === StatusCodes.BAD_REQUEST_400) {

@@ -1,6 +1,6 @@
 import React, { DragEvent, MutableRefObject, useCallback } from "react";
 import styles from './index.module.scss'
-import { Task } from "../../../../axios/types";
+import { Task } from "../../../../rest-api/types";
 import { useAppDispatch } from '../../../../store/hooks'
 import { showDisplayedTaskThunk } from "../../../../store/slices/tasksSlice";
 

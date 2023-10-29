@@ -1,6 +1,6 @@
 import { Draggable, Sorting } from './../types';
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { Task } from "../../axios/types";
+import { Task } from "../../rest-api/types";
 import { AppDispatch, RootState } from "../redux-store";
 import { ModalType, setModalClose, setModalOpen } from "./modalSlice";
 

@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { setModalClose } from "../../../../store/slices/modalSlice";
 import { createTaskThunk, selectTasks } from "../../../../store/slices/tasksSlice";
 import { useCreateTaskMutation } from "../../../../store/services/tasksService";
-import { Task } from "../../../../axios/types";
+import { Task } from "../../../../rest-api/types";
 import { Loader } from "../../../shared//Loader/Loader";
 
 export const CreateTask = () => {

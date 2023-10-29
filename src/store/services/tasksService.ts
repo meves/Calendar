@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react' 
-import { baseURL } from '../../axios'
-import { Task } from '../../axios/types'
+import { baseURL } from '../../rest-api'
+import { Task } from '../../rest-api/types'
 import { RootState } from '../redux-store'
 import { Dates, UpdateTask } from '../types'
 

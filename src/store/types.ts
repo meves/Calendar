@@ -1,4 +1,4 @@
-import { Task } from "../axios/types"
+import { Task } from "../rest-api/types"
 
 export type Dates = {startDate: string, endDate: string}
 

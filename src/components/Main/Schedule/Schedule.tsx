@@ -7,12 +7,11 @@ import { getDayMonthFormat } from "../../utils/getDayMonthFormat";
 import { getNameOfDayOfTheWeek } from "../../utils/getNameOfDayOfTheWeek";
 import { v4 as uuidv4 } from 'uuid'
 import { generateDaysOfWeeks } from "../../utils/generateDaysOfWeeks";
-import { Task } from "../../../axios/types";
+import { Task } from "../../../rest-api/types";
 import { isCurrentDate } from "../../utils/isCurrentDate";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { selectTasks, setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
-import { Sorting } from "../../../store/types";
 
 export const Schedule = ({
     startDate,
@@ -107,7 +106,7 @@ export const Schedule = ({
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                     >
-                        {tasks?.map((item: Task) => (
+                        {data?.result.map((item: Task) => (
                             generateDaysOfWeeks(startDate, day) === item.date ?
                             <TaskItem
                                 key={item.id}

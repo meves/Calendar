@@ -1,6 +1,10 @@
-export type Token = {
+export interface Token {
     token: string
     type: string
+}
+
+export interface SavedToken extends Token {
+    date: Date
 }
 
 export type LoginData = {

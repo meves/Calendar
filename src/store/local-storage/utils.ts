@@ -1,3 +1,5 @@
+import { monthDuration } from "../../components/utils/constants"
+
 export const saveToLocalStorage = (name: string, data: any): void => {
     localStorage.setItem(name, JSON.stringify(data))
 }
@@ -17,4 +19,8 @@ export const deleteFromLocalStorage = (name: string): boolean => {
         return true
     }
     return false
+}
+
+export const checkTokenExpired = (date: Date) => {
+    return (new Date().getTime() - new Date(date).getTime()) <= monthDuration
 }

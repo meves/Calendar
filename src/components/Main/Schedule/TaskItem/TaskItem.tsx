@@ -18,7 +18,7 @@ export const TaskItem = ({
     }, [task])
 
     const handleOnDragStart = useCallback((event: DragEvent<HTMLDivElement>, task: Task) => {
-        draggableTaskItem.current = task        
+        draggableTaskItem.current = task
     }, [task])
 
     return (

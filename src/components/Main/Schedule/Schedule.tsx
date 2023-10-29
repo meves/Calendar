@@ -36,12 +36,23 @@ export const Schedule = ({
 
     const draggableTaskItem = useRef<Task>()
 
+    const handleDragStart = useCallback((event: DragEvent<HTMLDivElement>) => {
+        event.currentTarget.draggable = false
+    }, [])
+
+    const handleDragEnd = useCallback((event: DragEvent<HTMLDivElement>) => {
+        event.currentTarget.draggable = true
+        event.currentTarget.style.border = 'none'
+    }, [])
+
     const handleOnDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
         event.preventDefault()        
     }, [draggableTaskItem])
 
     const handleOnDragEner = useCallback((event: DragEvent<HTMLDivElement>) => {
-        event.currentTarget.style.border = '1px solid #111'
+        if (draggableTaskItem.current) {
+            event.currentTarget.style.border = '1px solid #111'
+        }
     }, [])
 
     const handleOnDragLeave = useCallback((event: DragEvent<HTMLDivElement>) => {
@@ -52,8 +63,10 @@ export const Schedule = ({
         event.preventDefault()
         if (draggableTaskItem.current) {
             const task = draggableTaskItem.current
+            draggableTaskItem.current = undefined
             dispatch(updateDraggableTaskThunk({task, date}))
         }
+        event.currentTarget.style.border = 'none' 
     }, [draggableTaskItem.current])
 
     const days: number[] = []    
@@ -91,6 +104,8 @@ export const Schedule = ({
                         onDrop={event => handleOnDrop(event, generateDaysOfWeeks(startDate, day))}
                         onDragEnter={handleOnDragEner}
                         onDragLeave={handleOnDragLeave}
+                        onDragStart={handleDragStart}
+                        onDragEnd={handleDragEnd}
                     >
                         {tasks?.map((item: Task) => (
                             generateDaysOfWeeks(startDate, day) === item.date ?

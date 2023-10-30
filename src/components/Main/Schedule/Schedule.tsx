@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../store/hooks";
 import { setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
 import { Notify } from "../../shared/Notify/Notify";
+import ErrorPage from "../../../pages/ErrorPages/ErrorPage";
 
 export const Schedule = ({
     startDate,
@@ -77,7 +78,7 @@ export const Schedule = ({
     }
 
     if (error) {
-        navigate('/error')
+        return <ErrorPage/>
     }
     
     return (

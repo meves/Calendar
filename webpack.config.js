@@ -7,9 +7,13 @@ const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 const TerserWebpackPlugin = require('terser-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const Dotenv = require('dotenv-webpack')
 
-const IS_DEV = process.env.NODE_ENV === 'development';
-console.log(`${IS_DEV ? 'MODE: development' : 'MODE: production'}`);
+const isDevelopment = process.env.MODE === 'development';
+console.log(process.env.MODE);
+console.log(`${isDevelopment ? 'MODE: development' : 'MODE: production'}`);
+
+const dotenvFilename = isDevelopment ? '.env.development' : '.env.production';
 
 const optimize = () => {
     const config = {
@@ -17,14 +21,14 @@ const optimize = () => {
             chunks: 'all'
         }
     }
-    if (!IS_DEV) {
+    if (!isDevelopment) {
         config.minimize = true,
         config.minimizer = [new TerserWebpackPlugin(), new CssMinimizerPlugin()]
     } 
     return config;
 }
 
-const filename = ext => IS_DEV ? `[name].${ext}` : `[name].[contenthash].${ext}`;
+const filename = ext => isDevelopment ? `[name].${ext}` : `[name].[contenthash].${ext}`;
 
 module.exports = {
     context: path.resolve(__dirname, 'src'),
@@ -49,7 +53,7 @@ module.exports = {
     optimization: optimize(),
     devServer: {
         port: 3000,
-        hot: IS_DEV,
+        hot: isDevelopment,
         historyApiFallback: true,
     },
     devtool: "inline-source-map",
@@ -57,7 +61,7 @@ module.exports = {
         new HTMLWebpackPlugin({
             template: './index.html',
             minify: {
-                collapseWhitespace: !IS_DEV
+                collapseWhitespace: !isDevelopment
             }
         }),
         new CleanWebpackPlugin(),
@@ -81,9 +85,12 @@ module.exports = {
             process: 'process/browser',
         }),
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-            'process.env.REACT_APP_BASE_URL': JSON.stringify(process.env.REACT_APP_BASE_URL),
+            'process.env.REACT_APP_MODE': JSON.stringify(process.env.MODE),
+            'process.env.REACT_APP_BASE_URL': JSON.stringify(process.env.BASE_URL),
         }),
+        new Dotenv({
+            path: dotenvFilename,
+        })
     ],
     module: {
         rules: [

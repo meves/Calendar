@@ -9,7 +9,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
 const IS_DEV = process.env.NODE_ENV === 'development';
-console.log(`development : ${IS_DEV}`);
+console.log(`${IS_DEV ? 'MODE: development' : 'MODE: production'}`);
 
 const optimize = () => {
     const config = {

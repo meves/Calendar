@@ -1,3 +1,10 @@
 export const BAD_REQUEST = 'Неправильный логин или пароль'
 export const NOT_AUTHORIZED = 'Неправильный логин или пароль'
 export const SERVER_ERROR = 'Ошибка сервераю Попробуйте позже'
+
+export const TASK_CREATED = 'Задача успешно добавлена'
+export const TASK_NOT_CREATED = 'Задача не добавлена'
+export const TASK_UPDATED = 'Задача успешно обновлена'
+export const TASK_NOT_UPDATED = 'Задача не обновлена'
+export const TASK_DELETED = 'Задача успешно удалена'
+export const TASK_NOT_DELETED = 'Задача не удалена'

@@ -108,7 +108,15 @@ export const LoginForm = () => {
                 </button>
             </fieldset>
         </form>
-        <ToastContainer />
+        <ToastContainer 
+            position="bottom-left"
+            autoClose={3000}
+            hideProgressBar={true}
+            closeOnClick
+            pauseOnFocusLoss
+            pauseOnHover
+            theme="dark"
+        />
         </>
     )
 }

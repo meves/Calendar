@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import styles from './index.module.scss'
 import classNames from "classnames";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { deleteDisplayedTaskThunk, selectTasks } from "../../../../store/slices/tasksSlice";
+import { closeSubmitDeletedThunk, deleteTaskThunk, selectTasks } from "../../../../store/slices/tasksSlice";
 import { useDeleteTaskMutation } from "../../../../store/services/tasksService";
 
 export const DeleteTask = () => {
@@ -10,25 +10,24 @@ export const DeleteTask = () => {
 
     const { displayedTask } = useAppSelector(selectTasks)
 
-    const [ deleteTask ] = useDeleteTaskMutation()
+    const [ deleteTask, { error } ] = useDeleteTaskMutation()
 
     const handleCancelDeleteOnClick = useCallback(() => {
-        dispatch(deleteDisplayedTaskThunk('submit-delete'))
+        dispatch(closeSubmitDeletedThunk())
     }, [])
 
-    const handleDeleteTaskOnClick = useCallback(() => {
-        if (displayedTask) {
-            displayedTask.id && deleteTask(displayedTask.id)
+    const handleDeleteTaskOnClick = useCallback(async () => {
+        if (displayedTask?.id) {
+            const result: any = await deleteTask(displayedTask.id) // TODO type any
+            dispatch(deleteTaskThunk(result.error ? false : true))
         }
-        dispatch(deleteDisplayedTaskThunk('submit-delete'))
-
     }, [displayedTask, displayedTask?.id])
 
     return (
         <div className={styles.wrapper}>
             <h2 
                 className={styles.title}
-            >Подвтвердите удаление задачи
+            >Подтвердите удаление задачи
             </h2>
             <div className={styles.buttons}>
                 <button

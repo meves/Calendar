@@ -1,4 +1,4 @@
-import React, { ChangeEvent, DragEvent, useCallback, useEffect, useRef } from "react";
+import React, { DragEvent, useCallback, useEffect, useRef } from "react";
 import styles from './index.module.scss'
 import { TaskItem } from "./TaskItem/TaskItem";
 import { useGetTasksQuery } from "../../../store/services/tasksService";
@@ -10,8 +10,9 @@ import { generateDaysOfWeeks } from "../../utils/generateDaysOfWeeks";
 import { Task } from "../../../rest-api/types";
 import { isCurrentDate } from "../../utils/isCurrentDate";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import { selectTasks, setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
+import { useAppDispatch } from "../../../store/hooks";
+import { setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
+import { Notify } from "../../shared/Notify/Notify";
 
 export const Schedule = ({
     startDate,
@@ -30,8 +31,6 @@ export const Schedule = ({
     useEffect(() => {
         dispatch(setTasks(data?.result as Task[]))
     }, [data])
-
-    const { tasks } = useAppSelector(selectTasks)
 
     const draggableTaskItem = useRef<Task>()
 
@@ -117,6 +116,7 @@ export const Schedule = ({
                     </div>
                 </section>
             ))}
+            <Notify/>
         </main>
     )
     

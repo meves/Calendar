@@ -3,19 +3,23 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Task } from "../../rest-api/types";
 import { AppDispatch, RootState } from "../redux-store";
 import { ModalType, setModalClose, setModalOpen } from "./modalSlice";
+import { TASK_CREATED, TASK_DELETED, TASK_NOT_CREATED, TASK_NOT_DELETED, TASK_NOT_UPDATED, TASK_UPDATED } from '../constants';
+import { QueryStatus } from '@reduxjs/toolkit/query';
 
 export interface TasksState {
     tasks: Task[]
     currentTask: Task | null
     displayedTask: Task | null
     draggableTask: Task | null
+    actionMessage: string
 }
 
 const initialState: TasksState = {
     tasks: [],
     currentTask: null,
     displayedTask: null,
-    draggableTask: null
+    draggableTask: null,
+    actionMessage: ''
 }
 
 export const tasksSlise = createSlice({
@@ -55,6 +59,12 @@ export const tasksSlise = createSlice({
                 }
                 return task
             })
+        },
+        setActionMessage: (state, action: PayloadAction<string>) => {
+            state.actionMessage = action.payload
+        },
+        resetActionMessage: (state, action: PayloadAction) => {
+            state.actionMessage = ''
         }
     }
 })
@@ -68,7 +78,9 @@ export const {
     resetDisplayedTask,
     changeDateAtDraggableTask,
     setDraggableTask,
-    resetDraggableTask
+    resetDraggableTask,
+    setActionMessage,
+    resetActionMessage
 
 } = tasksSlise.actions
 
@@ -76,12 +88,18 @@ export default tasksSlise.reducer
 
 export const selectTasks = (state: RootState) => state.tasks
 
-export const createTaskThunk = (task: Task) =>
+export const createTaskThunk = (task: Task, isSuccess: boolean) =>
     async (dispatch: AppDispatch) => {
-        dispatch(addTask(task))
-        dispatch(resetCurrentTask())
+        if (isSuccess) {
+            dispatch(addTask(task))
+            dispatch(resetCurrentTask())
+            dispatch(setModalClose('new-task'))
+            dispatch(setActionMessage(TASK_CREATED))
+        }
+        else {
+            dispatch(setActionMessage(TASK_NOT_CREATED))
+        }
         dispatch(setModalClose('submit-create'))
-        dispatch(setModalClose('new-task'))        
     }
 
 export const showDisplayedTaskThunk = (task: Task) =>
@@ -90,18 +108,33 @@ export const showDisplayedTaskThunk = (task: Task) =>
         dispatch(setModalOpen('task-data'))
     }
 
-export const deleteDisplayedTaskThunk = (modalType: ModalType) =>
+export const closeSubmitDeletedThunk = () =>
     async (dispatch: AppDispatch) => {
         dispatch(resetDisplayedTask())
-        dispatch(setModalClose(modalType))        
+        dispatch(setModalClose('submit-delete'))        
     }
 
-export const updateTaskThunk = () =>
+export const deleteTaskThunk = (isSuccess: boolean) =>
     async (dispatch: AppDispatch) => {
-        dispatch(resetCurrentTask())
-        dispatch(resetDisplayedTask())
+        if (isSuccess) {
+            dispatch(setActionMessage(TASK_DELETED))
+        } else {
+            dispatch(setActionMessage(TASK_NOT_DELETED))            
+        }
+        dispatch(closeSubmitDeletedThunk())
+    }
+
+export const updateTaskThunk = (isSuccess: boolean) =>
+    async (dispatch: AppDispatch) => {
+        if (isSuccess) {
+            dispatch(resetCurrentTask())
+            dispatch(resetDisplayedTask())
+            dispatch(setModalClose('new-task'))
+            dispatch(setActionMessage(TASK_UPDATED))
+        } else {
+            dispatch(setActionMessage(TASK_NOT_UPDATED))            
+        }
         dispatch(setModalClose('submit-update'))
-        dispatch(setModalClose('new-task'))
     }
 
 export const updateDraggableTaskThunk = (draggable: Draggable) =>

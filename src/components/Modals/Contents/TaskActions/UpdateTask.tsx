@@ -11,17 +11,17 @@ export const UpdateTask = () => {
 
     const { displayedTask, currentTask, draggableTask } = useAppSelector(selectTasks)
 
-    const [ updateTask,{ error, status, data } ] = useUpdateTaskMutation()
+    const [ updateTask,{ error } ] = useUpdateTaskMutation()
 
     const handleCancelUpdateOnClick = useCallback(() => {
         dispatch(resetCurrentTask())
         dispatch(setModalClose('submit-update'))
     }, [])
 
-    const handleUpdateTaskOnClick = useCallback(() => {
+    const handleUpdateTaskOnClick = useCallback(async () => {
         if (displayedTask && currentTask) {
             const { name, description, date, type } = currentTask
-            displayedTask && updateTask({
+            const result: any = await updateTask({ // TODO type any
                 id: displayedTask.id as number,
                 task: {
                     name,
@@ -31,7 +31,7 @@ export const UpdateTask = () => {
                     tags: [],
                 }
             })
-            dispatch(updateTaskThunk())
+            dispatch(updateTaskThunk(result.error ? false : true))
         }
     }, [displayedTask, currentTask])
 
@@ -45,7 +45,7 @@ export const UpdateTask = () => {
         <div className={styles.wrapper}>
             <h2 
                 className={styles.title}
-            >Подвтвердите обновление задачи
+            >Подтвердите обновление задачи
             </h2>
             <div className={styles.buttons}>
                 <button

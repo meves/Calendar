@@ -5,7 +5,9 @@ import { REQUIRED } from "../../../Login/libs/constants";
 import { validate } from "../../../Login/libs/validators";
 import { InputName } from "../../../Login/libs/types";
 import { displayError } from "../../../Login/libs/displayError";
-import { resetCurrentTask, resetDisplayedTask, selectTasks, setCurrentTask } from "../../../../store/slices/tasksSlice";
+import { 
+    resetCurrentTask, resetDisplayedTask, selectTasks, setCurrentTask 
+} from "../../../../store/slices/tasksSlice";
 import { setModalClose, setModalOpen } from "../../../../store/slices/modalSlice";
 import classNames from "classnames";
 import { TaskTypes } from "../../../Login/libs/enum";
@@ -70,7 +72,7 @@ export const AddNewtask = () => {
 
         dispatch(setCurrentTask({
                 name: inputState.name,
-                description: inputState.description,
+                description: inputState.description || null,
                 date: inputState.date,
                 type: Number(inputState.type),
                 tags: []
@@ -159,7 +161,6 @@ export const AddNewtask = () => {
                     </div>
                 </fieldset>
             </form>
-
         </div>
     )
 }

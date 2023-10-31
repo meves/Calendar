@@ -9,9 +9,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { generateDaysOfWeeks } from "../../utils/generateDaysOfWeeks";
 import { Task } from "../../../rest-api/types";
 import { isCurrentDate } from "../../utils/isCurrentDate";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../../../store/hooks";
-import { setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { selectTasks, setTasks, updateDraggableTaskThunk } from "../../../store/slices/tasksSlice";
 import { Notify } from "../../shared/Notify/Notify";
 import ErrorPage from "../../../pages/ErrorPages/ErrorPage";
 
@@ -24,13 +23,16 @@ export const Schedule = ({
     endDate: string
     currentDate: Date
 }) => {
-    const navigate = useNavigate()
     const dispatch = useAppDispatch()
+
+    const { tasks } = useAppSelector(selectTasks)
 
     const { data, error, isLoading, isFetching } = useGetTasksQuery({startDate, endDate})
 
     useEffect(() => {
-        dispatch(setTasks(data?.result as Task[]))
+        if (data?.result) {
+            dispatch(setTasks(data?.result as Task[]))
+        }        
     }, [data])
 
     const draggableTaskItem = useRef<Task>()
@@ -90,7 +92,6 @@ export const Schedule = ({
                 >
                     <div 
                         className={styles.cell}
-                        key={uuidv4()}    
                     >
                         <span>{ getNameOfDayOfTheWeek(generateDaysOfWeeks(startDate, day)) }</span>
                         <span>{ getDayMonthFormat(generateDaysOfWeeks(startDate, day)) }</span>
@@ -106,10 +107,10 @@ export const Schedule = ({
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                     >
-                        {data?.result.map((item: Task) => (
+                        {tasks.map((item: Task) => (
                             generateDaysOfWeeks(startDate, day) === item.date ?
                             <TaskItem
-                                key={item.id}
+                                key={uuidv4()}
                                 task={item}
                                 draggableTaskItem={draggableTaskItem}
                             /> : null

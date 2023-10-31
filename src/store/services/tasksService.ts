@@ -6,7 +6,7 @@ import { Dates, UpdateTask } from '../types'
 
 export const tasksApi = createApi({
     reducerPath: 'tasksApi',
-    tagTypes: ['Task'],
+    tagTypes: ['Tasks', 'Task'],
     baseQuery: fetchBaseQuery({ 
         baseUrl: baseURL,
         prepareHeaders: (headers, { getState }) => {
@@ -22,7 +22,7 @@ export const tasksApi = createApi({
             query: (dates) => ({
                 url: `tasks/?start_date=${dates.startDate}&end_date=${dates.endDate}`
             }),
-            providesTags: ['Task']
+            providesTags: ['Tasks']
         }),
         getTaskById: builder.query<Task, number>({
             query: (id) => ({
@@ -36,7 +36,6 @@ export const tasksApi = createApi({
                 method: 'POST',
                 body: task
             }),
-            invalidatesTags: ['Task']
         }),
         updateTask: builder.mutation<Task, UpdateTask>({
             query: (arg) => ({

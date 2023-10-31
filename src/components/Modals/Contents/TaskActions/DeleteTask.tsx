@@ -19,7 +19,7 @@ export const DeleteTask = () => {
     const handleDeleteTaskOnClick = useCallback(async () => {
         if (displayedTask?.id) {
             const result: any = await deleteTask(displayedTask.id) // TODO type any
-            dispatch(deleteTaskThunk(result.error ? false : true))
+            dispatch(deleteTaskThunk(displayedTask.id, result.error ? false : true))
         }
     }, [displayedTask, displayedTask?.id])
 

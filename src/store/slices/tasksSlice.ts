@@ -1,10 +1,9 @@
-import { Draggable, Sorting } from './../types';
+import { Draggable, UpdateTask } from './../types';
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Task } from "../../rest-api/types";
 import { AppDispatch, RootState } from "../redux-store";
-import { ModalType, setModalClose, setModalOpen } from "./modalSlice";
+import { setModalClose, setModalOpen } from "./modalSlice";
 import { TASK_CREATED, TASK_DELETED, TASK_NOT_CREATED, TASK_NOT_DELETED, TASK_NOT_UPDATED, TASK_UPDATED } from '../constants';
-import { QueryStatus } from '@reduxjs/toolkit/query';
 
 export interface TasksState {
     tasks: Task[]
@@ -30,9 +29,13 @@ export const tasksSlise = createSlice({
             state.tasks = action.payload
         },
         addTask: (state, action: PayloadAction<Task>) => {
-            if (state.tasks) {
-                state.tasks = state.tasks.concat(action.payload)
-            }
+            state.tasks = state.tasks.concat(action.payload)            
+        },
+        deleteTask: (state, action: PayloadAction<number>) => {
+            state.tasks = state.tasks.filter(task => task.id !== action.payload)
+        },
+        updateTask: (state, action: PayloadAction<Task>) => {
+            state.tasks = state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
         },
         setCurrentTask: (state, action: PayloadAction<Task>) => {
             state.currentTask = action.payload
@@ -65,7 +68,7 @@ export const tasksSlise = createSlice({
         },
         resetActionMessage: (state, action: PayloadAction) => {
             state.actionMessage = ''
-        }
+        },        
     }
 })
 
@@ -80,7 +83,9 @@ export const {
     setDraggableTask,
     resetDraggableTask,
     setActionMessage,
-    resetActionMessage
+    resetActionMessage,
+    deleteTask,
+    updateTask
 
 } = tasksSlise.actions
 
@@ -114,9 +119,10 @@ export const closeSubmitDeletedThunk = () =>
         dispatch(setModalClose('submit-delete'))        
     }
 
-export const deleteTaskThunk = (isSuccess: boolean) =>
+export const deleteTaskThunk = (id: number, isSuccess: boolean) =>
     async (dispatch: AppDispatch) => {
         if (isSuccess) {
+            dispatch(deleteTask(id))
             dispatch(setActionMessage(TASK_DELETED))
         } else {
             dispatch(setActionMessage(TASK_NOT_DELETED))            
@@ -124,9 +130,10 @@ export const deleteTaskThunk = (isSuccess: boolean) =>
         dispatch(closeSubmitDeletedThunk())
     }
 
-export const updateTaskThunk = (isSuccess: boolean) =>
+export const updateTaskThunk = (task: Task, isSuccess: boolean) =>
     async (dispatch: AppDispatch) => {
         if (isSuccess) {
+            dispatch(updateTask(task))
             dispatch(resetCurrentTask())
             dispatch(resetDisplayedTask())
             dispatch(setModalClose('new-task'))

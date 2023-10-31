@@ -22,7 +22,7 @@ export const CreateTask = () => {
 
     const handleCreateOnClick = useCallback(async () => {
         const result: any = await createTask(currentTask) // TODO type any
-        dispatch(createTaskThunk(data as Task, result.error ? false : true))
+        dispatch(createTaskThunk(currentTask, result.error ? false : true))
     }, [currentTask, error, createTask])
 
     if (isLoading) return <Loader/>

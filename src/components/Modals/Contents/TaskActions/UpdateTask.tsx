@@ -21,17 +21,19 @@ export const UpdateTask = () => {
     const handleUpdateTaskOnClick = useCallback(async () => {
         if (displayedTask && currentTask) {
             const { name, description, date, type } = currentTask
-            const result: any = await updateTask({ // TODO type any
+
+            const updatedTask = {
                 id: displayedTask.id as number,
                 task: {
                     name,
                     description,
                     date,
                     type,
-                    tags: [],
+                    tags: []
                 }
-            })
-            dispatch(updateTaskThunk(result.error ? false : true))
+            }
+            const result: any = await updateTask(updatedTask) // TODO type any
+            dispatch(updateTaskThunk({...updatedTask.task, id: displayedTask.id}, result.error ? false : true))
         }
     }, [displayedTask, currentTask])
 

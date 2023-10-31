@@ -46,7 +46,7 @@ export const selectAuth = (state: RootState) => state.auth
 
 export const initializeApp = () =>
     async (dispatch: AppDispatch) => {
-        const token = getFromLocalStorage<SavedToken>(TOKEN)        
+        const token = getFromLocalStorage<SavedToken>(TOKEN)
         if (token && checkTokenExpired(token.date)) {
             dispatch(setToken(token.token))
             dispatch(setIsAuth())

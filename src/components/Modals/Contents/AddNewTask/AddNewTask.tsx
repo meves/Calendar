@@ -148,7 +148,7 @@ export const AddNewtask = () => {
                     </div>
 
                     <div className={styles.buttons}>
-                    <button
+                        <button
                             className={classNames(styles.cancel, styles.button)}
                             onClick={handleCloseFormOnClick}
                         >Закрыть окно

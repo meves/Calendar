@@ -48,10 +48,11 @@ export const DisplayTaskData = () => {
                 </div>
                 <div className={styles.row}>
                     <span>Тип</span>
-                    <span 
-                        className={`${styles.type} ${displayedTask?.type === 1 ? styles.current : displayedTask?.type === 2 ? styles.important : styles.urgent}`}
-                    >
-                        {displayTaskType(displayedTask?.type)}
+                    <span>
+                        <span 
+                            className={`${styles.type} ${displayedTask?.type === 1 ? styles.current : displayedTask?.type === 2 ? styles.important : styles.urgent}`}
+                        >{displayTaskType(displayedTask?.type)}
+                        </span>
                     </span>
                 </div>
                 <div className={styles.buttons}>

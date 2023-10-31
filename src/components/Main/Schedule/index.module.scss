@@ -7,10 +7,17 @@
         grid-template-rows: 2 1fr;
         row-gap: 20px;
     }
-    @media screen and (max-width: 439px) {
+    @media screen and (max-width: 649px) {
         grid-template-columns: repeat(3, 1fr);
         grid-template-rows: 3 1fr;
-        row-gap: 20px;
+    }
+    @media screen and (max-width: 479px) {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 4 1fr;
+    }
+    @media screen and (max-width: 360px) {
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: 7 1fr;
     }
 
     .cell {
@@ -21,10 +28,16 @@
         justify-content: flex-start;
         align-items: center;
         background-color: var(--white);
+        font-size: 18px;
 
         & > span:last-child {
             margin-left: auto;
         }
+        
+        @media screen and (max-width: 1920px) {
+            font-size: 14px;
+        }
+
     }
 
     .column {

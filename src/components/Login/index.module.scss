@@ -1,11 +1,16 @@
 .form {
-    width: 320px;
+    flex-basis: 320px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     gap: 23px;
     color: var(--dark-grey);
+
+    @media screen and (max-width: 529px) {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 
     .legend {
         font-weight: 400;

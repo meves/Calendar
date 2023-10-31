@@ -25,7 +25,7 @@ export const AddNewtask = () => {
             const { name, description, date, type } = displayedTask
             setInputState({
                 name,
-                description: String(description),
+                description: description ? description : '',
                 date,
                 type: String(type)
             })
@@ -43,9 +43,11 @@ export const AddNewtask = () => {
     ) => {
         const { name, value } = event.currentTarget
         setInputState(prev => ({...prev, [name]: value}))
-        value ?
-            setErrors(prev => ({...prev, [name]: ''})) :
+        if (value) {
+            setErrors(prev => ({...prev, [name]: ''}))
+        } else if (!value && name !== 'description') {
             setErrors(prev => ({...prev, [name]: REQUIRED}))
+        }
     }, [])
 
     const handleCloseFormOnClick = useCallback(() => {
@@ -62,7 +64,7 @@ export const AddNewtask = () => {
         for (let entry of Object.entries(inputState)) {
             const name = entry[0] as InputName
             const value = entry[1]
-            if (!value) {
+            if (!value && name !== 'description') {
                 return setErrors(prev => ({...prev, [name]: REQUIRED}))
             }
             if (!validate(name, value)) {

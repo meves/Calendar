@@ -10,7 +10,6 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const Dotenv = require('dotenv-webpack')
 
 const isDevelopment = process.env.MODE === 'development';
-console.log(process.env.MODE);
 console.log(`${isDevelopment ? 'MODE: development' : 'MODE: production'}`);
 
 const dotenvFilename = isDevelopment ? '.env.development' : '.env.production';

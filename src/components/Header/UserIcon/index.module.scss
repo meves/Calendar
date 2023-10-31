@@ -10,6 +10,12 @@
     transition: all 0.2s ease-out;
 
     .initials {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         font-weight: 400;
         font-size: 20px;
         line-height: 1;

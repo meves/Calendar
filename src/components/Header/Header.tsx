@@ -1,6 +1,6 @@
 import React from "react"
 import styles from './index.module.scss'
-import { UserIcon } from "../shared/UserIcon/UserIcon"
+import { UserIcon } from "./UserIcon/UserIcon"
 
 export const Header = () => {
     return (

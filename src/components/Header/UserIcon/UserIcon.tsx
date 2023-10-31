@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { MouseEvent, useCallback, useEffect, useState } from "react";
 import styles from './index.module.scss'
 import { useAppDispatch } from "../../../store/hooks";
 import { logoutThunk } from "../../../store/slices/authSlice";
@@ -14,7 +14,22 @@ export const UserIcon = ({
 
     const [dropdownIsOpen, setDropdownIsOpen] = useState(false)
 
-    const handleDropdownOnClick = useCallback(() => {
+    const closeDropdownMenu = useCallback(function() {
+        setDropdownIsOpen(false)
+    }, [])
+
+    useEffect(() => {
+        if (dropdownIsOpen) {
+            document.body.addEventListener('click', closeDropdownMenu)
+
+            return () => {
+                document.body.removeEventListener('click', closeDropdownMenu)
+            }
+        }
+    }, [dropdownIsOpen, closeDropdownMenu])
+
+    const handleDropdownOnClick = useCallback((event: MouseEvent<HTMLParagraphElement>) => {
+        event.nativeEvent.stopImmediatePropagation()
         setDropdownIsOpen(prev => !prev)
     }, [])
 

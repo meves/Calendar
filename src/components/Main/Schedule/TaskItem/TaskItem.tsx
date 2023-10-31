@@ -1,8 +1,9 @@
-import React, { DragEvent, MutableRefObject, useCallback } from "react";
+import React, { DragEvent, MouseEvent, MutableRefObject, useCallback } from "react";
 import styles from './index.module.scss'
 import { Task } from "../../../../rest-api/types";
 import { useAppDispatch } from '../../../../store/hooks'
 import { showDisplayedTaskThunk } from "../../../../store/slices/tasksSlice";
+import { setModalClose } from "../../../../store/slices/modalSlice";
 
 export const TaskItem = ({
     task,
@@ -13,8 +14,12 @@ export const TaskItem = ({
 }) => {
     const dispatch = useAppDispatch()
     
-    const handleDisplyTaskOnClick = useCallback(() => {
+    const handleDisplyTaskOnClick = useCallback((event: MouseEvent<HTMLDivElement>) => {
+        event.stopPropagation()
         dispatch(showDisplayedTaskThunk(task))
+        document.body.onclick = function() {
+            dispatch(setModalClose('task-data'))
+        }
     }, [task])
 
     const handleOnDragStart = useCallback((event: DragEvent<HTMLDivElement>, task: Task) => {

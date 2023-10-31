@@ -9,6 +9,20 @@
     background-color: var(--white);
     border-radius: 10px;
     border: 2px solid var(--light-grey02);
+    position: relative;
+
+    .cross {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.5;
+        transition: all 0.2s ease-out;
+
+        &:hover {
+            cursor: pointer;
+            opacity: 1;
+        }
+    }
 
     .taskData {
         width: 100%;

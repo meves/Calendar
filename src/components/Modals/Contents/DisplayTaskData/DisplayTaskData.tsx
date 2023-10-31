@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { MouseEvent, useCallback, useEffect } from "react";
 import styles from './index.module.scss'
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { selectTasks } from "../../../../store/slices/tasksSlice";
@@ -19,22 +19,25 @@ export const DisplayTaskData = () => {
         dispatch(setModalOpen('submit-delete'))
     }, [])
 
-    useEffect(() => {
-        const modal = document.getElementById('modal')
-        if (modal) {
-            modal.onclick = function() {
-                dispatch(setModalClose('task-data'))
-            }
-        }
-        return () => {
-            if (modal) {
-                modal.onclick = null
-            }
-        }
+    const handleArticleOnClic = useCallback((event: MouseEvent<HTMLDivElement>) => {
+        event.nativeEvent.stopImmediatePropagation()
+    }, [])
+
+    const handleCloseTaskDataOnClick = useCallback(() => {
+        dispatch(setModalClose('task-data'))
+        document.body.onclick = null
     }, [])
 
     return (
-        <article className={styles.wrapper}>
+        <article 
+            className={styles.wrapper}
+            onClick={handleArticleOnClic}  
+        >
+            <div 
+                className={styles.cross}
+                onClick={handleCloseTaskDataOnClick}
+            >&#10008;
+            </div>
             <h2>{displayedTask?.name}</h2>
             
             <section className={styles.taskData}>

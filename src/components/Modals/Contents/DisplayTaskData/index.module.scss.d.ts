@@ -3,6 +3,7 @@
 interface CssExports {
   'button': string;
   'buttons': string;
+  'cross': string;
   'current': string;
   'deleteButton': string;
   'important': string;

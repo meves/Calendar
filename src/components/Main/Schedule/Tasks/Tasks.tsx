@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { selectTasks, setTasks, updateDraggableTaskThunk } from "../../../../store/slices/tasksSlice";
 import { generateDaysOfWeeks } from "../../../utils/generateDaysOfWeeks";
 import { TaskItem } from "../TaskItem/TaskItem";
-import { Task } from "../../../../axios/types";
+import { Task } from "../../../../rest-api/types";
 import styles from './index.module.scss'
 import { useGetTasksQuery } from "../../../../store/services/tasksService";
 import { Loader } from "../../../shared/Loader/Loader";

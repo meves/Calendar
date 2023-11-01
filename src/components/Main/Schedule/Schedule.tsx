@@ -25,13 +25,13 @@ export const Schedule = ({
 }) => {
     const dispatch = useAppDispatch()
 
-    const { tasks } = useAppSelector(selectTasks)
+    const tasks = useAppSelector(selectTasks).tasks
 
     const { data, error, isLoading, isFetching } = useGetTasksQuery({startDate, endDate})
 
     useEffect(() => {
         if (data?.result) {
-            dispatch(setTasks(data?.result as Task[]))
+            dispatch(setTasks(data.result))
         }        
     }, [data])
 

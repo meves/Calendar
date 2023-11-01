@@ -1,4 +1,4 @@
-import { Draggable, UpdateTask } from './../types';
+import { Draggable } from './../types';
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { Task } from "../../rest-api/types";
 import { AppDispatch, RootState } from "../redux-store";
